@@ -54,13 +54,13 @@ Verilmeyen (tehlikeli) capability'ler:
 
 #### Capability Yönetimi
 ```bash
-# Tüm capability'leri kaldır, sadece gerekenleri ekle
+# Tüm capability'leri kaldır, sadece gerekenleri ekle (NET_BIND_SERVICE 1024 altı portlara bind yetkisidir)
 docker run --cap-drop=ALL --cap-add=NET_BIND_SERVICE myapp
 
-# Belirli capability kaldır
+# Belirli capability kaldır (NET_RAW raw socket açma yetkisidir)
 docker run --cap-drop=NET_RAW myapp
 
-# Tehlikeli: tüm capability'leri ver (asla production'da kullanma)
+# Tehlikeli: tüm capability'leri ver (production'da kullanılmamalı)
 docker run --privileged myapp
 ```
 
@@ -75,7 +75,7 @@ capsh --decode=00000000a80425fb
 
 > [!warning] --privileged Flag
 > `--privileged` container'a **tüm** host capability'lerini verir + tüm device'lara erişim sağlar.
-> Container neredeyse host'un kendisi kadar yetkili olur. **Asla production'da kullanma.**
+> Container neredeyse host'un kendisi kadar yetkili olur. **Production'da kullanılmamalı.**
 
 ---
 
@@ -84,14 +84,22 @@ capsh --decode=00000000a80425fb
 **Syscall filtering** mekanizması. Container'ın hangi kernel syscall'larını yapabileceğini kontrol eder.
 
 #### Docker Default Seccomp Profile
-Docker ~44 tehlikeli syscall'ı **varsayılan olarak engeller**:
-
-- `reboot` → host'u yeniden başlatma
-- `mount` → filesystem mount
-- `swapon/swapoff` → swap yönetimi
-- `init_module` → kernel modül yükleme
-- `ptrace` → process debugging (bazı modlarda)
+Docker ~44 tehlikeli syscall'ı **varsayılan olarak engeller**, bazı engellenmiş syscall'lar:
+- `mount` → filesystem mount etme
+- `umount2` → filesystem unmount etme (bayraklı)
+- `reboot` → host’u yeniden başlatma
+- `swapon` / swapoff → swap açma/kapama
 - `clock_settime` → sistem saatini değiştirme
+- `clone` → yeni process/thread (ve bazı namespace) oluşturma
+- `unshare` → mevcut süreci yeni namespace’e ayırma
+- `setns` → süreci başka namespace’e taşıma
+- `pivot_root` → process’in root filesystem’ini değiştirme (container dünyasında önemli)
+- `ptrace` → process debug/izleme
+- `process_vm_readv` / process_vm_writev → başka process belleğini okuma/yazma
+- `bpf` → eBPF programı yükleme/yönetme
+- `perf_event_open` → düşük seviye performans ölçümü/izleme
+- `init_module` / finit_module / delete_module → kernel modülü yükleme/kaldırma
+- `add_key` / keyctl / request_key → kernel keyring yönetimi
 
 #### Custom Seccomp Profile
 ```json
@@ -100,8 +108,7 @@ Docker ~44 tehlikeli syscall'ı **varsayılan olarak engeller**:
   "architectures": ["SCMP_ARCH_X86_64"],
   "syscalls": [
     {
-      "names": ["read", "write", "open", "close", "stat", "fstat",
-                "mmap", "mprotect", "brk", "exit_group", "futex"],
+      "names": ["read", "write", "open", "close", "stat", "fstat", "mmap", "mprotect", "brk", "exit_group", "futex"],
       "action": "SCMP_ACT_ALLOW"
     }
   ]
@@ -126,7 +133,9 @@ docker run --security-opt seccomp=unconfined myapp
 ## AppArmor
 
 **Mandatory Access Control (MAC)** sistemi. Process'lerin dosya, network ve capability erişimlerini profil bazlı kısıtlar.
-
+- Her uygulama için bir profil tanımlanir.
+- Profil, uygulamanın hangi dosyaya, capability’ye, network erişimine izinli olduğunu belirtir.
+- Uygulama root olsa bile profilin dışına çıkamaz, izin yoksa engellenir.
 #### Docker Default AppArmor Profile (`docker-default`)
 ```
 # Engellenenler:
@@ -165,25 +174,6 @@ docker run --security-opt apparmor=docker-myapp myapp
 
 # AppArmor'u devre dışı bırak
 docker run --security-opt apparmor=unconfined myapp
-```
-
----
-
-## SELinux
-
-**Security-Enhanced Linux** — Red Hat/CentOS tabanlı sistemlerde AppArmor yerine kullanılır.
-Label-based access control sağlar.
-
-```bash
-# SELinux context ile çalıştır
-docker run --security-opt label=type:svirt_apache_net_t myapp
-
-# SELinux'u devre dışı bırak
-docker run --security-opt label=disable myapp
-
-# Volume mount'larda SELinux label
-docker run -v /host/data:/data:Z myapp   # :Z = private label
-docker run -v /host/data:/data:z myapp   # :z = shared label
 ```
 
 ---

@@ -60,6 +60,45 @@ Cgroups → **ne kadar kullanabilirsin?** (kaynak kontrolü)
 
 ---
 
+## Pressure Stall Information (PSI)
+
+PSI, Linux kernel'in **CPU, bellek ve disk I/O baskısı nedeniyle süreçlerin ne kadar beklediğini** ölçen mekanizmasıdır.
+## Neden önemli?
+
+- Klasik `cpu%` tek başına darboğazı her zaman göstermez.
+- PSI, doğrudan "iş yapamama/bekleme" süresini verir.
+- Özellikle container ve multi-tenant sistemlerde gürültülü komşu etkisini yakalamada çok faydalıdır.
+
+## Nereden okunur?
+
+```bash
+cat /proc/pressure/cpu
+cat /proc/pressure/memory
+cat /proc/pressure/io
+```
+
+Alanlar:
+- `some`: En az bir process beklemiş.
+- `full`: Tüm çalışabilir processler beklemiş (kritik).
+- `avg10/avg60/avg300`: Son 10/60/300 saniyelik ortalama baskı yüzdesi.
+- `total`: Sistem açıldığından beri biriken bekleme süresi (mikrosaniye).
+
+## Kısa örnek yorum
+
+Örnek CPU çıktısı:
+
+```text
+some avg10=0.66 avg60=0.45 avg300=0.79 total=...
+full avg10=0.00 avg60=0.00 avg300=0.00 total=0
+```
+
+Yorum:
+- `cpu some` sıfırdan büyük: Hafif CPU beklemesi var.
+- `cpu full` sıfır: Toplu/kritik CPU kilitlenmesi yok.
+- `memory` ve `io` tarafında `avg* = 0.00`: Anlık baskı görünmüyor.
+
+---
+
 ## CPU Kontrolü
 
 #### CPU Shares (göreceli ağırlık)
@@ -172,6 +211,69 @@ docker events --filter event=oom
 # Kernel log'dan
 dmesg | grep -i "oom\|killed"
 ```
+
+---
+## OOM Score Mekanizması
+
+Linux'ta bellek tükendiğinde (OOM: Out Of Memory), kernel hangi süreci sonlandıracağına bir puanlama ile karar verir.
+
+## `oom_score` nedir?
+
+`/proc/<pid>/oom_score`, ilgili sürecin OOM sırasında öldürülme adaylığı puanını gösterir.
+
+- Aralık pratikte `0` ile `1000` arasındadır.
+- Puan yükseldikçe OOM anında sonlandırılma olasılığı artar.
+
+Örnek:
+
+```bash
+cat /proc/1234/oom_score
+```
+
+Not: `cat /proc/self/oom_score` komutu, shell yerine çoğu zaman `cat` sürecinin puanını gösterir. Shell için `$$` kullan:
+
+```bash
+cat /proc/$$/oom_score
+```
+
+## `oom_score_adj` nedir?
+
+`/proc/<pid>/oom_score_adj`, kernelin hesapladığı puana manuel bir etki (bias) uygular.
+
+- Aralık: `-1000` ile `+1000`
+- `-1000`: Neredeyse hiç öldürme
+- `0`: Varsayılan
+- `+1000`: Çok güçlü şekilde öldürme adayı yap
+
+Örnek görüntüleme:
+
+```bash
+cat /proc/1234/oom_score_adj
+```
+
+Örnek değiştirme:
+
+```bash
+echo 500 | sudo tee /proc/1234/oom_score_adj
+```
+
+## Pratik kullanım
+
+- Kritik servisler için daha düşük değerler (ör. `-500`, `-900`)
+- Worker/batch süreçleri için daha yüksek değerler (ör. `+200`, `+500`)
+
+## Dikkat edilmesi gerekenler
+
+- Çok fazla süreci negatif değerlere çekmek, OOM anında kernelin seçeneklerini azaltır.
+- Ayarları servis yöneticisinden yapmak daha sürdürülebilirdir. Örneğin systemd:
+
+```ini
+[Service]
+OOMScoreAdjust=-500
+```
+
+Bu şekilde süreç her yeniden başladığında ayar korunur.
+
 
 ---
 

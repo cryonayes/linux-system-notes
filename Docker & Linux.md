@@ -1,7 +1,5 @@
 ## Docker
 
-> `Docker/` klasöründe
-
 - [[Docker Temelleri]] — Mimari, image, layer, Union FS, VM vs Container, lifecycle
 - [[Docker Networking]] — Bridge, host, overlay, veth pair, iptables NAT, DNS
 - [[Docker Storage ve Volumes]] — Bind mount, volume, tmpfs, persistence, backup
@@ -13,8 +11,6 @@
 ---
 
 ## Linux Internals
-
-> `Linux/` klasöründe
 
 ### Temel Kavramlar
 - [[Linux Namespaces]] — PID, network, mount, UTS, IPC, user, cgroup, time
