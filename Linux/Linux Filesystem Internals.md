@@ -1,5 +1,3 @@
-# Linux Filesystem Internals
-
 Linux kernel, dosya sistemlerini **VFS (Virtual File System)** adlı bir soyutlama katmanı üzerinden yönetir. User-space uygulamaları `open()`, `read()`, `write()` gibi syscall'larla çalışırken, VFS bu çağrıları ilgili filesystem driver'ına yönlendirir. Bu not, VFS katmanından başlayarak inode, dentry, superblock yapılarını, ext4/xfs/btrfs karşılaştırmasını, journaling mekanizmasını ve pratik komutları derinlemesine ele alır.
 
 > [!info] İlişkili Notlar

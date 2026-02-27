@@ -1,5 +1,3 @@
-# Linux Virtual Memory
-
 Linux kernel'inin en kritik alt sistemlerinden biri olan **Virtual Memory (Sanal Bellek)**, her process'e kendi **bağımsız adres alanını** sunar. Fiziksel RAM'den soyutlama sağlar, process izolasyonunu garanti eder ve fiziksel bellekten daha fazla bellek kullanımına olanak tanır.
 
 > [!info] İlişkili

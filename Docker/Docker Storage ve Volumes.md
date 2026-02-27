@@ -1,5 +1,3 @@
-# Docker Storage ve Volumes
-
 Container'lar **stateless** çalışır — container silindiğinde içindeki veriler kaybolur.
 Kalıcı veri için Docker **3 storage mekanizması** sunar.
 

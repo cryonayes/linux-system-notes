@@ -1,5 +1,3 @@
-# Linux Debugging Araçları
-
 Process'lerin **syscall'larını**, **library call'larını**, **memory erişimlerini** ve **davranışlarını** izlemek için kullanılan araçlar.
 
 > [!info] İlişkili

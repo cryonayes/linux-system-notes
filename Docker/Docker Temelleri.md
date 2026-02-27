@@ -1,5 +1,3 @@
-# Docker Temelleri
-
 **Docker**, uygulamaları **izole**, **taşınabilir** ve **tekrar üretilebilir** şekilde çalıştırmak için kullanılan bir **container platformudur**.
 
 Docker şunları paketler:

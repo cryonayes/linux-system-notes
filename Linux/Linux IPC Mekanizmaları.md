@@ -1,5 +1,3 @@
-# Linux IPC Mekanizmaları
-
 **IPC (Inter-Process Communication)** — Process'ler arası iletişim mekanizmaları.
 Linux kernel birden fazla IPC yöntemi sunar, her birinin farklı use case'leri vardır.
 

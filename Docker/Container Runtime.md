@@ -1,5 +1,3 @@
-# Container Runtime
-
 Docker CLI'dan container'ın kernel'de çalışmasına kadar olan **tam zincir**.
 
 ---

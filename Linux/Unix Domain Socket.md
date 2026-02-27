@@ -1,5 +1,3 @@
-# Unix Domain Socket
-
 **Unix Domain Socket (UDS)** — aynı host üzerindeki process'ler arası **çift yönlü**, **güvenilir** iletişim sağlayan IPC mekanizması. TCP/IP socket API'si ile **aynı interface**'i kullanır ama network stack'i tamamen **bypass** eder. Kernel içinde doğrudan buffer kopyalama yapılır → TCP loopback'e göre **~2x hızlı**.
 
 > [!info] İlişkili Notlar

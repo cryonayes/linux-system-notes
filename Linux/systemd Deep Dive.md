@@ -1,5 +1,3 @@
-# systemd Deep Dive
-
 Linux'ta **systemd**, modern init sistemidir. PID 1 olarak çalışır, servisleri, soketleri, zamanlayıcıları ve sistem durumlarını yönetir.
 
 > [!info] İlişkili Notlar

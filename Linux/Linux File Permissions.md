@@ -1,5 +1,3 @@
-# Linux File Permissions
-
 Linux'ta dosya ve dizin erişimine **kim**, **ne yapabilir** sorusu permission (izin) sistemiyle cevaplanır. Temel DAC modelinden özel bitlere, ACL'lerden capability'lere kadar katmanlı bir yetki mimarisi vardır.
 
 > [!info] İlişkili

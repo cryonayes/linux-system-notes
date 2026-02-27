@@ -1,5 +1,3 @@
-# Linux Scheduler
-
 Linux kernel'inde **scheduler**, CPU zamanını process'ler arasında **adil ve verimli** bir şekilde paylaştıran alt sistemdir. Birden fazla process'in aynı anda çalışıyormuş gibi görünmesini sağlayan **preemptive multitasking** mekanizmasının kalbidir.
 
 > [!info] İlişkili

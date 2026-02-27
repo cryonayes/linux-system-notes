@@ -1,5 +1,3 @@
-# Linux Socket Programming
-
 **Socket** — iki process arasında network (veya aynı host) üzerinden veri iletişimi için kullanılan temel endpoint mekanizması. Linux'ta her şey bir **file descriptor** olduğu için, socket'ler de fd tabanlı API üzerinden yönetilir.
 
 > [!info] İlişkili Notlar

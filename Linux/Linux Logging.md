@@ -1,5 +1,3 @@
-# Linux Logging
-
 Linux'ta log sistemi, **kernel**, **daemon'lar** ve **uygulamalar** tarafından üretilen mesajları toplar, depolar ve yönetir.
 
 > [!info] Docker ile ilişki

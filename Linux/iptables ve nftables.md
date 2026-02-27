@@ -1,5 +1,3 @@
-# iptables ve nftables
-
 Linux kernel'inin **packet filtering** framework'ü. Network paketlerini filtreleme, NAT, port yönlendirme ve trafik kontrolü sağlar.
 
 > [!info] Docker ile ilişki

@@ -1,5 +1,3 @@
-# Dockerfile Best Practices
-
 Daha **küçük**, **hızlı**, **güvenli** ve **cache-dostu** image'lar oluşturmak için Dockerfile yazım kuralları.
 
 ---

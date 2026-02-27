@@ -1,5 +1,3 @@
-# Linux Dynamic Libraries
-
 Linux'ta programlar **paylaşılan kütüphaneleri (.so)** runtime'da yükler. Bu mekanizma memory tasarrufu sağlar ama **injection** ve **hooking** yüzeyi de oluşturur.
 
 > [!info] İlişkili

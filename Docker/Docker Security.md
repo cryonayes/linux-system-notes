@@ -1,5 +1,3 @@
-# Docker Security
-
 Docker container'ları **izole** çalışır ama default konfigürasyon her zaman **yeterli güvenlik** sağlamaz.
 Katmanlı savunma (defense in depth) yaklaşımı uygulanmalıdır.
 

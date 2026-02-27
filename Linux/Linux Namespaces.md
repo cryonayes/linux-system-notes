@@ -1,5 +1,3 @@
-# Linux Namespaces
-
 Namespace = process'lerin **kernel objelerini farklı görmesini** sağlar.
 Aynı kernel, farklı "gerçeklik".
 

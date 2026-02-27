@@ -1,5 +1,3 @@
-# Linux Boot Process
-
 Bilgisayarın güç tuşuna basıldığı andan kullanıcının karşısına login ekranı gelene kadar gerçekleşen **tüm adımların** ayrıntılı incelemesi.
 
 > [!info] İlişkili

@@ -1,5 +1,3 @@
-# TCP/IP Stack Internals
-
 Linux kernel'inde network stack'in çalışma prensibi. Paketlerin fiziksel kablodan uygulamaya kadar nasıl yolculuk ettiğini, TCP'nin güvenilirlik mekanizmalarını ve kernel buffer tuning yöntemlerini kapsar.
 
 > [!info] İlişkili notlar

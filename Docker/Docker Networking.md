@@ -1,5 +1,3 @@
-# Docker Networking
-
 Docker, container'ların network iletişimini **Linux kernel network stack** üzerinde yönetir.
 Her container kendi [[Linux Namespaces#Network Namespace (netns)|network namespace]]'ine sahiptir.
 

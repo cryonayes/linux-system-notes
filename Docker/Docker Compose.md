@@ -1,5 +1,3 @@
-# Docker Compose
-
 **Docker Compose**, birden fazla container'ı tek bir YAML dosyası ile tanımlayıp yönetmeyi sağlar.
 
 Tek container → `docker run`

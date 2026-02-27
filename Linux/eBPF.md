@@ -1,5 +1,3 @@
-# eBPF
-
 Linux kernel'inde **sandboxed programlar** çalıştırabilen, kernel kaynak kodunu değiştirmeden veya kernel modülü yüklemeden **kernel davranışını programlanabilir** hale getiren devrimsel teknoloji. Networking, observability, security ve tracing alanlarında modern Linux altyapısının temelidir.
 
 > [!info] İlişkili

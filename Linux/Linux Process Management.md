@@ -1,5 +1,3 @@
-# Linux Process Management
-
 Linux'ta her şey bir **process**'tir. Kernel, process'leri `task_struct` yapısı ile yönetir.
 
 > [!info] Docker ile ilişki

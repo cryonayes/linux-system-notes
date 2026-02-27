@@ -1,5 +1,3 @@
-# Linux Cgroups
-
 **Cgroups (Control Groups)**, Linux kernel'inin process'lere **kaynak limiti** koymasını sağlayan mekanizmadır.
 
 [[Linux Namespaces]] → **ne görüyorsun?** (izolasyon)

@@ -1,5 +1,3 @@
-# Linux Cryptography ve TLS
-
 Modern sistemlerde veri güvenliğinin temeli **kriptografi** ve **TLS** (Transport Layer Security) protokoludur.
 Bu not; simetrik/asimetrik şifreleme, hashing, dijital imza, PKI, TLS handshake, disk encryption ve pratik OpenSSL kullanımını kapsar.
 
