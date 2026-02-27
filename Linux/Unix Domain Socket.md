@@ -56,11 +56,11 @@ Unix Domain Socket:
 
 Unix domain socket'ler üç farklı adres türünü destekler:
 
-| Tür | Adres | Filesystem'de Görünür | Kullanım |
-|-----|-------|----------------------|----------|
-| **Pathname** | `/var/run/docker.sock` | Evet (`srwxr-x---` dosyası) | En yaygın, dosya izinleri ile güvenlik |
-| **Abstract** | `\0/my-socket` (null prefix) | Hayır | Linux'a özel, temizlik gerektirmez |
-| **Unnamed** | — | Hayır | `socketpair()` ile, parent-child arası |
+| Tür          | Adres                        | Filesystem'de Görünür       | Kullanım                               |
+| ------------ | ---------------------------- | --------------------------- | -------------------------------------- |
+| **Pathname** | `/var/run/docker.sock`       | Evet (`srwxr-x---` dosyası) | En yaygın, dosya izinleri ile güvenlik |
+| **Abstract** | `\0/my-socket` (null prefix) | Hayır                       | Linux'a özel, temizlik gerektirmez     |
+| **Unnamed**  | —                            | Hayır                       | `socketpair()` ile, parent-child arası |
 
 #### Pathname Socket
 
@@ -677,12 +677,13 @@ TCP'den fark: routing, segmentation, congestion control,
 # Basit benchmark: socat ile throughput testi
 
 # TCP loopback
-socat -u /dev/zero TCP-LISTEN:12345 &
-socat -u TCP:127.0.0.1:12345 /dev/null
+socat -u /dev/zero TCP-LISTEN:12345,reuseaddr &
+timeout 10s socat -u TCP:127.0.0.1:12345 - | pv -brat > /dev/null
 
 # Unix domain socket
+rm -f /tmp/bench.sock
 socat -u /dev/zero UNIX-LISTEN:/tmp/bench.sock &
-socat -u UNIX-CONNECT:/tmp/bench.sock /dev/null
+timeout 10s socat -u UNIX-CONNECT:/tmp/bench.sock - | pv -brat > /dev/null
 ```
 
 > [!tip] Performans Tercihi

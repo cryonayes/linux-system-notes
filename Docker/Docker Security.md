@@ -274,7 +274,7 @@ docker pull suspicious-image      # Hata verir
 - [ ] Read-only filesystem (`--read-only` + `tmpfs`)
 - [ ] Seccomp profili uygula (en azından default)
 - [ ] Resource limitleri koy (`--memory`, `--cpus`, `--pids-limit`)
-- [ ] `--privileged` **asla** kullanma
+- [ ] `--privileged` kullanma
 - [ ] Image'ları vulnerability scanner ile tara (`trivy`, `grype`)
 - [ ] Docker Content Trust aktifleştir
 - [ ] Sensitive veri image'a gömme (secret management kullan)

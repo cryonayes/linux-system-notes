@@ -22,7 +22,7 @@ Docker kurulduğunda otomatik `bridge` network oluşturulur (`docker0`).
 
 ```
 Host
-├── eth0 (fiziksel NIC)           ← dış dünya
+├── eth0 (fiziksel ağ kartı)           ← dış dünya
 ├── docker0 (bridge, 172.17.0.1) ← sanal switch
 │   ├── veth123 ←──── eth0 (Container A, 172.17.0.2)
 │   └── veth456 ←──── eth0 (Container B, 172.17.0.3)
@@ -140,7 +140,6 @@ Bu komut şunu yapar:
 
 1. Host'un **tüm interface'lerinde** port 8080'i dinler
 2. Gelen trafiği container'ın port 80'ine yönlendirir (DNAT)
-3. `docker-proxy` process'i oluşturulur (userspace fallback)
 
 #### Farklı Binding Seçenekleri
 ```bash
@@ -157,18 +156,6 @@ docker port <container>  # Atanan portu görmek
 # UDP port mapping
 docker run -p 8080:80/udp myapp
 ```
-
-#### docker-proxy Nedir?
-```bash
-# Her port mapping için bir docker-proxy process'i oluşur
-ps aux | grep docker-proxy
-# /usr/bin/docker-proxy -proto tcp -host-ip 0.0.0.0 -host-port 8080 -container-ip 172.17.0.2 -container-port 80
-```
-
-- iptables kuralları çalışmazsa (hairpin NAT gibi) devreye girer
-- Performans overhead'i var
-- `"userland-proxy": false` ile `/etc/docker/daemon.json`'da devre dışı bırakılabilir
-
 ---
 
 ## DNS Resolution

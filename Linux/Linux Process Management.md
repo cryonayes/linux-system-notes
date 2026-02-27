@@ -29,40 +29,36 @@ Her process şunlara sahiptir:
 #### Process Durumları
 
 ```
-           fork()
-             │
-             ▼
-       ┌─ CREATED ─┐
-       │            │
-       ▼            │
-    READY ──────────┤
-       │            │
-       │ scheduled  │
-       ▼            │
-    RUNNING ────────┤
-       │    │       │
-       │    │ I/O   │ signal
-       │    ▼       │
-       │  SLEEPING  │
-       │    │       │
-       │    │ I/O   │
-       │    │ done  │
-       │    ▼       │
-       │  READY ────┘
-       │
-       │ exit()
-       ▼
-    ZOMBIE ──→ parent wait() ──→ TERMINATED
+[ fork()/clone() ]
+        |
+        v
++-----------------------+      scheduler seçer       +-----------+
+| RUNNABLE / READY (R)  | -------------------------> | RUNNING   |
+|  (çalışmaya hazır)    | <------------------------- | (CPU'da)  |
++-----------------------+   preempt / time slice     +-----------+
+          ^                                                 |
+          |                                                 | exit()
+          | wakeup (I/O tamam)                              v
++-----------------------+                           +-----------------+
+| SLEEPING              |                           | ZOMBIE (Z)      |
+| S: interruptible      |                           | (wait bekliyor) |
+| D: uninterruptible    |                           +-----------------+
++-----------------------+                                 | 
+                                                          | parent wait()/waitpid()
+                                                          |
+                                                          v
+                                                   +-------------------+
+                                                   | REAPED/TERMINATED |
+                                                   | (temizlendi)      |
+                                                   +-------------------+
 ```
 
-| Durum | `ps` Flag | Açıklama |
-|-------|-----------|----------|
-| **R** (Running) | `R` | CPU'da çalışıyor veya run queue'da |
-| **S** (Sleeping) | `S` | Interruptible sleep (I/O, lock bekleme) |
-| **D** (Disk Sleep) | `D` | Uninterruptible sleep (disk I/O, **kill edilemez**) |
-| **T** (Stopped) | `T` | SIGSTOP veya debugger ile durdurulmuş |
-| **Z** (Zombie) | `Z` | Bitmiş ama parent `wait()` yapmamış |
-| **X** (Dead) | `X` | Tamamen sonlanmış (görünmez) |
+Durum Karşılıkları:
+- R: Hem çalışan hem çalışmaya hazır süreçleri kapsar.
+- S: Uyanabilir bekleme (çoğu normal bekleme).
+- D: Kernel beklemesi; sinyale hemen tepki vermeyebilir.
+- Z: Süreç bitmiştir, parent henüz toplamamıştır.
+- wait()/waitpid() sonrası process tablodan tamamen silinir.
 
 ---
 
@@ -118,7 +114,7 @@ Parent ──→ ┌──────────┐ ←── Child
 
 Child Page 1'e yazınca:
 Parent ──→ ┌──────────┐     Child ──→ ┌──────────┐
-           │  Page 1  │               │ Page 1'  │  (kopya, değiştirilmiş)
+           │  Page 1  │               │  Page 1' │  (kopya, değiştirilmiş)
            │  Page 2  │ ←─────────────│  Page 2  │  (hala paylaşımlı)
            └──────────┘               └──────────┘
 ```
@@ -136,8 +132,8 @@ Bu mekanizma `fork()`'u çok hızlı yapar — GB'larca memory'li process bile a
 execve("/bin/ls", argv, envp);
 
 // exec ailesi (wrapper'lar)
-execl("/bin/ls", "ls", "-la", NULL);           // list args
-execlp("ls", "ls", "-la", NULL);               // PATH'te arar
+execl("/bin/ls", "ls", "-la", NULL);            // list args
+execlp("ls", "ls", "-la", NULL);                // PATH'te arar
 execv("/bin/ls", argv);                         // array args
 execvp("ls", argv);                             // PATH + array
 execvpe("ls", argv, envp);                      // PATH + array + env

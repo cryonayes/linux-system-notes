@@ -250,8 +250,7 @@ LABEL description="My API service"
 
 #### HEALTHCHECK
 ```dockerfile
-HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
-  CMD curl -f http://localhost:3000/health || exit 1
+HEALTHCHECK --interval=30s --timeout=3s --retries=3 CMD curl -f http://localhost:3000/health || exit 1
 ```
 
 #### EXPOSE (dokümantasyon amaçlı)
