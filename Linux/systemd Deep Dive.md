@@ -64,19 +64,19 @@ Bagimliliklara gore unit'ler paralel başlatılır
 
 systemd her şeyi **unit** olarak yönetir. Her unit bir yapılandırma dosyasıdır.
 
-| Unit Türü | Uzantı | Açıklama | Örnek |
-|-----------|--------|----------|-------|
-| **Service** | `.service` | Daemon/servis yönetimi | `nginx.service` |
-| **Socket** | `.socket` | Soket dinleme, socket activation | `sshd.socket` |
-| **Timer** | `.timer` | Zamanlanmış görevler (cron alternatifi) | `backup.timer` |
-| **Mount** | `.mount` | Dosya sistemi bağlama (`/etc/fstab` alternatifi) | `home.mount` |
-| **Automount** | `.automount` | Otomatik mount (ilk erişimde) | `nas.automount` |
-| **Path** | `.path` | Dosya/dizin değişikliğinde tetikleme | `config.path` |
-| **Target** | `.target` | Unit gruplama (runlevel karşılığı) | `multi-user.target` |
-| **Slice** | `.slice` | Kaynak kontrolü grubu (cgroup hiyerarşisi) | `user.slice` |
-| **Scope** | `.scope` | Harici process grupları (runtime) | `session-1.scope` |
-| **Swap** | `.swap` | Swap alanı yönetimi | `dev-sda2.swap` |
-| **Device** | `.device` | udev device yönetimi | `sys-subsystem-net-...` |
+| Unit Türü     | Uzantı       | Açıklama                                         | Örnek                   |
+| ------------- | ------------ | ------------------------------------------------ | ----------------------- |
+| **Service**   | `.service`   | Daemon/servis yönetimi                           | `nginx.service`         |
+| **Socket**    | `.socket`    | Soket dinleme, socket activation                 | `sshd.socket`           |
+| **Timer**     | `.timer`     | Zamanlanmış görevler (cron alternatifi)          | `backup.timer`          |
+| **Mount**     | `.mount`     | Dosya sistemi bağlama (`/etc/fstab` alternatifi) | `home.mount`            |
+| **Automount** | `.automount` | Otomatik mount (ilk erişimde)                    | `nas.automount`         |
+| **Path**      | `.path`      | Dosya/dizin değişikliğinde tetikleme             | `config.path`           |
+| **Target**    | `.target`    | Unit gruplama (runlevel karşılığı)               | `multi-user.target`     |
+| **Slice**     | `.slice`     | Kaynak kontrolü grubu (cgroup hiyerarşisi)       | `user.slice`            |
+| **Scope**     | `.scope`     | Harici process grupları (runtime)                | `session-1.scope`       |
+| **Swap**      | `.swap`      | Swap alanı yönetimi                              | `dev-sda2.swap`         |
+| **Device**    | `.device`    | udev device yönetimi                             | `sys-subsystem-net-...` |
 
 ```
 Unit Dosyalarinin Konumlari (öncelik sirasina gore):
